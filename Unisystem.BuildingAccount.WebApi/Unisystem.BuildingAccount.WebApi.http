@@ -1,0 +1,6 @@
+@Unisystem.BuildingAccount.WebApi_HostAddress = http://localhost:5270
+
+GET {{Unisystem.BuildingAccount.WebApi_HostAddress}}/Buildings/
+Accept: application/json
+
+###
