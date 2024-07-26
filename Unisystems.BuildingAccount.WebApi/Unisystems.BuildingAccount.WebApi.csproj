@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Unisystems.BuildingAccount.DataContext\Unisystems.BuildingAccount.DataContext.csproj" />
+    <ProjectReference Include="..\Unisystems.RabbitMQ\Unisystems.RabbitMQ.csproj" />
   </ItemGroup>
 
 </Project>

@@ -24,6 +24,8 @@ public class ClassroomsController : ControllerBase
     public async Task<ActionResult<IEnumerable<ClassroomRetrieveDto>>> GetClassrooms()
     {
         return await _context.Classrooms
+            .Include(x => x.Building)
+            .Include(x => x.RoomType)
             .AsNoTracking()
             .Select(x => MapClassroom(x))
             .ToListAsync();
@@ -136,7 +138,7 @@ public class ClassroomsController : ControllerBase
         }
     }
 
-    private ClassroomRetrieveDto MapClassroom(Classroom classroom)
+    private static ClassroomRetrieveDto MapClassroom(Classroom classroom)
     {
         return new ClassroomRetrieveDto
         {
@@ -158,7 +160,7 @@ public class ClassroomsController : ControllerBase
         };
     }
 
-    private IEnumerable<ClassroomRetrieveDto> MapClassrooms(IEnumerable<Classroom> classrooms)
+    private static IEnumerable<ClassroomRetrieveDto> MapClassrooms(IEnumerable<Classroom> classrooms)
     {
         return classrooms.Select(MapClassroom);
     }

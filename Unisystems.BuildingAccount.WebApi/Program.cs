@@ -1,8 +1,12 @@
 using Unisystem.BuildingAccount.DataContext;
+using Unisystems.RabbitMQ;
+using Unisystems.RabbitMQ.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBuildingContext(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddMassTransitHostedRabbitMq(builder.Configuration);
+builder.Services.AddScoped<IRabbitMqService, RabbitMqService>();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
