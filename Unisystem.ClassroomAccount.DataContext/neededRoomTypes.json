@@ -1,0 +1,32 @@
+{
+  "roomTypes": [
+    {
+      "keyName": "sport",
+      "displayName": "Спортзал"
+    },
+    {
+      "keyName": "lecture",
+      "displayName": "Лекционный зал"
+    },
+    {
+      "keyName": "practice",
+      "displayName": "Для практических занятий"
+    },
+    {
+      "keyName": "accounting",
+      "displayName": "Бухгалтерия"
+    },
+    {
+      "keyName": "dean",
+      "displayName": "Деканат"
+    },
+    {
+      "keyName": "laboratory",
+      "displayName": "Лаборанская"
+    },
+    {
+      "keyName": "other",
+      "displayName": "Другое"
+    }
+  ]
+}
