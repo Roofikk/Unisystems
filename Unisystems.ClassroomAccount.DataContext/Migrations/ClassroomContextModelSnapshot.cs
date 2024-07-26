@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Unisystem.ClassroomAccount.DataContext;
+using Unisystems.ClassroomAccount.DataContext;
 
 #nullable disable
 
-namespace Unisystem.ClassroomAccount.DataContext.Migrations
+namespace Unisystems.ClassroomAccount.DataContext.Migrations
 {
     [DbContext(typeof(ClassroomContext))]
     partial class ClassroomContextModelSnapshot : ModelSnapshot
@@ -22,20 +22,20 @@ namespace Unisystem.ClassroomAccount.DataContext.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Unisystem.ClassroomAccount.DataContext.Entities.Building", b =>
+            modelBuilder.Entity("Unisystems.ClassroomAccount.DataContext.Entities.Building", b =>
                 {
                     b.Property<int>("BuildingId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Added")
+                    b.Property<DateTimeOffset>("Added")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("BuildingId");
 
@@ -45,7 +45,7 @@ namespace Unisystem.ClassroomAccount.DataContext.Migrations
                     b.ToTable("PartialBuildings", (string)null);
                 });
 
-            modelBuilder.Entity("Unisystem.ClassroomAccount.DataContext.Entities.Classroom", b =>
+            modelBuilder.Entity("Unisystems.ClassroomAccount.DataContext.Entities.Classroom", b =>
                 {
                     b.Property<int>("ClassroomId")
                         .ValueGeneratedOnAdd()
@@ -70,7 +70,6 @@ namespace Unisystem.ClassroomAccount.DataContext.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("RoomTypeId")
-                        .IsRequired()
                         .HasColumnType("varchar(24)");
 
                     b.HasKey("ClassroomId");
@@ -85,7 +84,7 @@ namespace Unisystem.ClassroomAccount.DataContext.Migrations
                     b.ToTable("Classrooms");
                 });
 
-            modelBuilder.Entity("Unisystem.ClassroomAccount.DataContext.Entities.RoomType", b =>
+            modelBuilder.Entity("Unisystems.ClassroomAccount.DataContext.Entities.RoomType", b =>
                 {
                     b.Property<string>("KeyName")
                         .HasColumnType("varchar(24)");
@@ -99,31 +98,30 @@ namespace Unisystem.ClassroomAccount.DataContext.Migrations
                     b.ToTable("RoomTypes");
                 });
 
-            modelBuilder.Entity("Unisystem.ClassroomAccount.DataContext.Entities.Classroom", b =>
+            modelBuilder.Entity("Unisystems.ClassroomAccount.DataContext.Entities.Classroom", b =>
                 {
-                    b.HasOne("Unisystem.ClassroomAccount.DataContext.Entities.Building", "Building")
+                    b.HasOne("Unisystems.ClassroomAccount.DataContext.Entities.Building", "Building")
                         .WithMany("Classrooms")
                         .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Unisystem.ClassroomAccount.DataContext.Entities.RoomType", "RoomType")
+                    b.HasOne("Unisystems.ClassroomAccount.DataContext.Entities.RoomType", "RoomType")
                         .WithMany("Classrooms")
                         .HasForeignKey("RoomTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Building");
 
                     b.Navigation("RoomType");
                 });
 
-            modelBuilder.Entity("Unisystem.ClassroomAccount.DataContext.Entities.Building", b =>
+            modelBuilder.Entity("Unisystems.ClassroomAccount.DataContext.Entities.Building", b =>
                 {
                     b.Navigation("Classrooms");
                 });
 
-            modelBuilder.Entity("Unisystem.ClassroomAccount.DataContext.Entities.RoomType", b =>
+            modelBuilder.Entity("Unisystems.ClassroomAccount.DataContext.Entities.RoomType", b =>
                 {
                     b.Navigation("Classrooms");
                 });

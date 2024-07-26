@@ -1,4 +1,4 @@
-﻿namespace Unisystem.ClassroomAccount.WebApi.Models;
+﻿namespace Unisystems.ClassroomAccount.WebApi.Models;
 
 public class BuildingDto
 {

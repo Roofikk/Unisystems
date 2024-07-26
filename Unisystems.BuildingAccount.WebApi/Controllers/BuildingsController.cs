@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Unisystem.BuildingAccount.DataContext;
-using Unisystem.BuildingAccount.WebApi.Models;
-using Unisystems.RabbitMQ.Consumers.Models;
-using Unisystems.RabbitMQ.Services;
+using Unisystems.BuildingAccount.DataContext;
+using Unisystems.BuildingAccount.WebApi.Models;
+using Unisystems.ClassroomAccount.WebApi.Services.RabbitMq;
+using Unisystems.RabbitMq.BuildingMessageContracts;
 
-namespace Unisystem.BuildingAccount.WebApi.Controllers;
+namespace Unisystems.BuildingAccount.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

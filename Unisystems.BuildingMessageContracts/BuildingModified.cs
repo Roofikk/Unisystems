@@ -1,6 +1,6 @@
-﻿namespace Unisystems.RabbitMQ.Consumers.Models;
+﻿namespace Unisystems.RabbitMq.BuildingMessageContracts;
 
-public class BuildingModified : IBuilding
+public class BuildingModified
 {
     public int BuildingId { get; set; }
     public string Name { get; set; } = null!;

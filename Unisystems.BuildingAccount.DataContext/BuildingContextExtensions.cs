@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Unisystem.BuildingAccount.DataContext;
+namespace Unisystems.BuildingAccount.DataContext;
 
 public static class BuildingContextExtensions
 {

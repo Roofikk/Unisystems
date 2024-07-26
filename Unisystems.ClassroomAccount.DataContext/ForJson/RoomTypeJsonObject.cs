@@ -1,4 +1,4 @@
-﻿namespace Unisystem.ClassroomAccount.DataContext.ForJson;
+﻿namespace Unisystems.ClassroomAccount.DataContext.ForJson;
 
 internal class RoomTypeJsonObject
 {

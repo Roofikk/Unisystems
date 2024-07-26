@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Reflection;
-using Unisystem.ClassroomAccount.DataContext.Entities;
-using Unisystem.ClassroomAccount.DataContext.ForJson;
+using Unisystems.ClassroomAccount.DataContext.Entities;
+using Unisystems.ClassroomAccount.DataContext.ForJson;
 
-namespace Unisystem.ClassroomAccount.DataContext;
+namespace Unisystems.ClassroomAccount.DataContext;
 
 public static class ClassroomContextExtensions
 {

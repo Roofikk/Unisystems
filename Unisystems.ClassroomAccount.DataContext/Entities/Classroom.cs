@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Unisystem.ClassroomAccount.DataContext.Entities;
+namespace Unisystems.ClassroomAccount.DataContext.Entities;
 
 public class Classroom
 {
@@ -11,9 +11,9 @@ public class Classroom
     public int Floor { get; set; }
     public int Number { get; set; }
 
-    public string RoomTypeId { get; set; } = null!;
+    public string? RoomTypeId { get; set; }
     public int BuildingId { get; set; }
 
-    public RoomType RoomType { get; set; } = null!;
+    public RoomType? RoomType { get; set; }
     public Building Building { get; set; } = null!;
 }

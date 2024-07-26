@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Unisystem.ClassroomAccount.DataContext.Entities;
+namespace Unisystems.ClassroomAccount.DataContext.Entities;
 
 public class Building
 {
     public int BuildingId { get; set; }
+    [Column(TypeName = "varchar(255)")]
     public string Name { get; set; } = null!;
-    public DateTime Added { get; set; }
-    public DateTime LastModified { get; set; }
+    public DateTimeOffset Added { get; set; }
+    public DateTimeOffset LastModified { get; set; }
 
     public ICollection<Classroom> Classrooms { get; set; } = [];
 }

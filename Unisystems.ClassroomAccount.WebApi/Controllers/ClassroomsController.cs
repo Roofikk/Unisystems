@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Unisystem.ClassroomAccount.DataContext;
-using Unisystem.ClassroomAccount.DataContext.Entities;
-using Unisystem.ClassroomAccount.WebApi.Models;
+using Unisystems.ClassroomAccount.DataContext;
+using Unisystems.ClassroomAccount.DataContext.Entities;
+using Unisystems.ClassroomAccount.WebApi.Models;
+using Unisystems.ClassroomAccount.WebApi.Models.Classroom;
 
-namespace Unisystem.ClassroomAccount.WebApi.Controllers;
+namespace Unisystems.ClassroomAccount.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -35,7 +36,11 @@ public class ClassroomsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ClassroomRetrieveDto>> GetClassroom(int id)
     {
-        var classroom = await _context.Classrooms.FindAsync(id);
+        var classroom = await _context.Classrooms
+            .Include(x => x.Building)
+            .Include(x => x.RoomType)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.ClassroomId == id);
 
         if (classroom == null)
         {
@@ -73,6 +78,10 @@ public class ClassroomsController : ControllerBase
         var newClassroom = await _context.Classrooms.AddAsync(classroom);
         await _context.SaveChangesAsync();
 
+        await _context.Entry(classroom).ReloadAsync();
+        await _context.Entry(classroom).Reference(x => x.Building).LoadAsync();
+        await _context.Entry(classroom).Reference(x => x.RoomType).LoadAsync();
+
         return CreatedAtAction("GetClassroom", new { id = newClassroom.Entity.ClassroomId }, MapClassroom(newClassroom.Entity));
     }
 
@@ -95,8 +104,6 @@ public class ClassroomsController : ControllerBase
         classroomToUpdate.Number = model.Number;
         classroomToUpdate.BuildingId = model.BuildingId;
         classroomToUpdate.RoomTypeId = model.RoomTypeId;
-
-        _context.Entry(model).State = EntityState.Modified;
 
         try
         {
@@ -152,10 +159,10 @@ public class ClassroomsController : ControllerBase
                 BuildingId = classroom.BuildingId,
                 Name = classroom.Building.Name
             },
-            RoomType = new RoomTypeDto
+            RoomType = new Models.RoomType.RoomTypeDto
             {
                 RoomTypeId = classroom.RoomTypeId,
-                DisplayName = classroom.RoomType.DisplayName
+                Name = classroom.RoomType?.DisplayName ?? null
             }
         };
     }

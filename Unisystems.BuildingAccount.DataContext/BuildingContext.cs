@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Unisystem.BuildingAccount.DataContext;
+namespace Unisystems.BuildingAccount.DataContext;
 
 public class BuildingContext : DbContext
 {

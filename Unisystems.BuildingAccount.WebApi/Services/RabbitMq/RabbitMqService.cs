@@ -1,7 +1,7 @@
 ﻿using MassTransit;
-using Unisystems.RabbitMQ.Models;
+using Unisystems.RabbitMq.BuildingMessageContracts;
 
-namespace Unisystems.RabbitMQ.Services;
+namespace Unisystems.ClassroomAccount.WebApi.Services.RabbitMq;
 
 public class RabbitMqService : IRabbitMqService
 {

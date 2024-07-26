@@ -1,11 +1,32 @@
-using Unisystem.BuildingAccount.DataContext;
-using Unisystems.RabbitMQ;
-using Unisystems.RabbitMQ.Services;
+using MassTransit;
+using Unisystems.BuildingAccount.DataContext;
+using Unisystems.ClassroomAccount.WebApi.Services.RabbitMq;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBuildingContext(builder.Configuration.GetConnectionString("DefaultConnection"));
-builder.Services.AddMassTransitHostedRabbitMq(builder.Configuration);
+builder.Services.AddMassTransit(x =>
+{
+    if (builder.Configuration["RabbitMq:Host"] == null ||
+        builder.Configuration["RabbitMq:UserName"] == null ||
+        builder.Configuration["RabbitMq:Password"] == null)
+    {
+        throw new Exception("RabbitMq configuration is not set. Need to set RabbitMq:Host, RabbitMq:UserName, RabbitMq:Password in appsettings.json");
+    }
+
+    x.SetKebabCaseEndpointNameFormatter();
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMq:Host"], "/", h =>
+        {
+            h.Username(builder.Configuration["RabbitMq:UserName"]!);
+            h.Password(builder.Configuration["RabbitMq:Password"]!);
+        });
+
+        cfg.ConfigureEndpoints(context);
+        cfg.UseRawJsonSerializer();
+    });
+});
 builder.Services.AddScoped<IRabbitMqService, RabbitMqService>();
 builder.Services.AddControllers();
 

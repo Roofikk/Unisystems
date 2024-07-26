@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Unisystem.ClassroomAccount.DataContext.Entities;
+using Unisystems.ClassroomAccount.DataContext.Entities;
 
-namespace Unisystem.ClassroomAccount.DataContext;
+namespace Unisystems.ClassroomAccount.DataContext;
 
 public class ClassroomContext : DbContext
 {
@@ -50,7 +50,8 @@ public class ClassroomContext : DbContext
 
             e.HasOne(c => c.RoomType)
                 .WithMany(t => t.Classrooms)
-                .HasForeignKey(c => c.RoomTypeId);
+                .HasForeignKey(c => c.RoomTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             e.HasIndex(c => c.Name).HasDatabaseName("IX_Classroom_Name");
         });

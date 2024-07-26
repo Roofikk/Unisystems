@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Unisystem.ClassroomAccount.DataContext.Entities;
+namespace Unisystems.ClassroomAccount.DataContext.Entities;
 
 public class RoomType
 {
@@ -11,5 +11,5 @@ public class RoomType
     [Column(TypeName = "varchar(64)")]
     public string DisplayName { get; set; } = null!;
 
-    public ICollection<Classroom> Classrooms { get; set; } = [];
+    public virtual ICollection<Classroom> Classrooms { get; set; } = [];
 }

@@ -1,4 +1,4 @@
-﻿namespace Unisystem.BuildingAccount.WebApi.Models;
+﻿namespace Unisystems.BuildingAccount.WebApi.Models;
 
 public class BuildingModifyDto
 {

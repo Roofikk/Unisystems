@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Unisystem.BuildingAccount.DataContext;
+using Unisystems.BuildingAccount.DataContext;
 
 #nullable disable
 
-namespace Unisystem.BuildingAccount.DataContext.Migrations
+namespace Unisystems.BuildingAccount.DataContext.Migrations
 {
     [DbContext(typeof(BuildingContext))]
     partial class BuildingContextModelSnapshot : ModelSnapshot
@@ -46,7 +46,7 @@ namespace Unisystem.BuildingAccount.DataContext.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Buildings");
+                    b.ToTable("Buildings", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Unisystem.BuildingAccount.DataContext;
+using Unisystems.BuildingAccount.DataContext;
 
 #nullable disable
 
-namespace Unisystem.BuildingAccount.DataContext.Migrations
+namespace Unisystems.BuildingAccount.DataContext.Migrations
 {
     [DbContext(typeof(BuildingContext))]
     [Migration("20240725145736_Initial")]
