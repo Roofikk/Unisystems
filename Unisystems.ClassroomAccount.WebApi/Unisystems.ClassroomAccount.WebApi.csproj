@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>5a68ce8a-6b4b-4ab9-a9fc-3058848ca19b</UserSecretsId>
+    <UserSecretsId>b244ab50-519c-4190-92d7-10392023d5b6</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Unisystem.BuildingAccount.DataContext\Unisystem.BuildingAccount.DataContext.csproj" />
+    <ProjectReference Include="..\Unisystems.ClassroomAccount.DataContext\Unisystems.ClassroomAccount.DataContext.csproj" />
   </ItemGroup>
 
 </Project>

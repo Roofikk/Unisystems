@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Unisystem.BuildingAccount.DataContext;
 using Unisystem.BuildingAccount.WebApi.Models;
+using Unisystems.RabbitMQ.Consumers.Models;
+using Unisystems.RabbitMQ.Services;
 
 namespace Unisystem.BuildingAccount.WebApi.Controllers;
 
@@ -11,11 +13,15 @@ public class BuildingsController : ControllerBase
 {
     private readonly BuildingContext _context;
     private readonly ILogger<BuildingsController> _logger;
+    private readonly IRabbitMqService _rabbitMqService;
 
-    public BuildingsController(BuildingContext context, ILogger<BuildingsController> logger)
+    public BuildingsController(BuildingContext context,
+        ILogger<BuildingsController> logger,
+        IRabbitMqService rabbitMqService)
     {
         _context = context;
         _logger = logger;
+        _rabbitMqService = rabbitMqService;
     }
 
     // GET: api/Buildings
@@ -51,6 +57,13 @@ public class BuildingsController : ControllerBase
         });
         await _context.SaveChangesAsync();
 
+        await _rabbitMqService.CreateBuilding(new BuildingCreated
+        {
+            BuildingId = buildingEntity.Entity.BuildingId,
+            Name = buildingEntity.Entity.Name,
+            CreatedAt = DateTime.Now,
+        });
+
         return CreatedAtAction("GetBuilding", new { id = buildingEntity.Entity.BuildingId }, MapBuilding(buildingEntity.Entity));
     }
 
@@ -74,6 +87,13 @@ public class BuildingsController : ControllerBase
         try
         {
             await _context.SaveChangesAsync();
+
+            await _rabbitMqService.UpdateBuilding(new BuildingModified
+            {
+                BuildingId = buildingEntity.BuildingId,
+                Name = buildingEntity.Name,
+                Modified = DateTime.Now
+            });
         }
         catch (DbUpdateConcurrencyException ex)
         {
@@ -96,6 +116,13 @@ public class BuildingsController : ControllerBase
 
         _context.Buildings.Remove(building);
         await _context.SaveChangesAsync();
+
+        await _rabbitMqService.DeleteBuilding(new BuildingDeleted
+        {
+            BuildingId = building.BuildingId,
+            Name = building.Name,
+            DeletedAt = DateTime.Now
+        });
 
         return NoContent();
     }

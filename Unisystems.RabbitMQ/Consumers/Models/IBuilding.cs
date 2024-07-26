@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Unisystems.RabbitMQ.Consumers.Models;
 
-public abstract class Building
+public interface IBuilding
 {
     public int BuildingId { get; set; }
-    public string Name { get; set; } = null!;
+    public string Name { get; set; }
 }

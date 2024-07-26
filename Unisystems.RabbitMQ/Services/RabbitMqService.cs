@@ -3,27 +3,27 @@ using Unisystems.RabbitMQ.Consumers.Models;
 
 namespace Unisystems.RabbitMQ.Services;
 
-public class RabbitMqService
+public class RabbitMqService : IRabbitMqService
 {
-    private readonly IBus _bus;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public RabbitMqService(IBus bus)
     {
-        _bus = bus;
+        _publishEndpoint = bus;
     }
 
     public async Task CreateBuilding(BuildingCreated buildingCreated)
     {
-        await _bus.Publish(buildingCreated);
+        await _publishEndpoint.Publish(buildingCreated);
     }
 
     public async Task UpdateBuilding(BuildingModified buildingUpdated)
     {
-        await _bus.Publish(buildingUpdated);
+        await _publishEndpoint.Publish(buildingUpdated);
     }
 
     public async Task DeleteBuilding(BuildingDeleted buildingDeleted)
     {
-        await _bus.Publish(buildingDeleted);
+        await _publishEndpoint.Publish(buildingDeleted);
     }
 }

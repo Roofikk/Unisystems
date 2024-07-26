@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Unisystems.RabbitMQ.Consumers;
-
 namespace Unisystems.RabbitMQ;
 
 public static class RabbitMqExtensions
@@ -11,28 +10,35 @@ public static class RabbitMqExtensions
     {
         return services.AddMassTransit(options =>
         {
+            options.AddConsumer<BuildingCreatedConsumer>();
+            options.AddConsumer<BuildingModifiedConsumer>();
+            options.AddConsumer<BuildingDeletedConsumer>();
+
             options.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host(configuration["RabbitMq:Host"], "/", host =>
+                cfg.Host("amqp://localhost:5672", host =>
                 {
-                    host.Username(configuration["RabbitMq:Username"]!);
-                    host.Password(configuration["RabbitMq:Password"]!);
+                    host.Username("guest");
+                    host.Password("guest");
                 });
 
-                cfg.ReceiveEndpoint("building-created", e =>
+                cfg.ReceiveEndpoint("building-created-queue", e =>
                 {
                     e.ConfigureConsumer<BuildingCreatedConsumer>(context);
                 });
 
-                cfg.ReceiveEndpoint("building-updated", e =>
+                cfg.ReceiveEndpoint("building-modified-queue", e =>
                 {
                     e.ConfigureConsumer<BuildingModifiedConsumer>(context);
                 });
 
-                cfg.ReceiveEndpoint("building-deleted", e =>
+                cfg.ReceiveEndpoint("building-deleted-queue", e =>
                 {
                     e.ConfigureConsumer<BuildingDeletedConsumer>(context);
                 });
+
+                cfg.UseRawJsonSerializer();
+                cfg.ConfigureEndpoints(context);
             });
         });
     }
