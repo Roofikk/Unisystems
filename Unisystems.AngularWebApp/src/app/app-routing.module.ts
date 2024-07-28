@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BuildingsComponent } from './components/buildings/buildings.component';
 import { ClassroomsComponent } from './components/classrooms/classrooms.component';
 import { AddBuildingComponent } from './components/add-building/add-building.component';
+import { EditBuildingComponent } from './components/edit-building/edit-building.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'classrooms',
     component: ClassroomsComponent
+  },
+  {
+    path: 'buildings/edit/:id',
+    component: EditBuildingComponent
   }
 ];
 

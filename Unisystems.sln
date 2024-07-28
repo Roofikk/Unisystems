@@ -13,10 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unisystems.ClassroomAccount
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unisystems.BuildingMessageContracts", "Unisystems.BuildingMessageContracts\Unisystems.BuildingMessageContracts.csproj", "{16738AA0-D285-41CF-A80C-A11A5E7DAD8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unisystems.AngularWebApp.Server", "Unisystems.AngularWebApp\Unisystems.AngularWebApp.Server\Unisystems.AngularWebApp.Server.csproj", "{B660696C-57A2-4985-AEF7-5066FA583ADE}"
-EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "unisystems.angularwebapp.client", "Unisystems.AngularWebApp\unisystems.angularwebapp.client\unisystems.angularwebapp.client.esproj", "{505E3987-F6DC-4F64-9996-8D53B0285C93}"
-EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Unisystems.AngularWebApp", "Unisystems.AngularWebApp\Unisystems.AngularWebApp.esproj", "{33CAC75C-7BCD-4566-90D9-C531CC8BC943}"
 EndProject
 Global
@@ -45,16 +41,6 @@ Global
 		{16738AA0-D285-41CF-A80C-A11A5E7DAD8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16738AA0-D285-41CF-A80C-A11A5E7DAD8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16738AA0-D285-41CF-A80C-A11A5E7DAD8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B660696C-57A2-4985-AEF7-5066FA583ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B660696C-57A2-4985-AEF7-5066FA583ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B660696C-57A2-4985-AEF7-5066FA583ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B660696C-57A2-4985-AEF7-5066FA583ADE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{505E3987-F6DC-4F64-9996-8D53B0285C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{505E3987-F6DC-4F64-9996-8D53B0285C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{505E3987-F6DC-4F64-9996-8D53B0285C93}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{505E3987-F6DC-4F64-9996-8D53B0285C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{505E3987-F6DC-4F64-9996-8D53B0285C93}.Release|Any CPU.Build.0 = Release|Any CPU
-		{505E3987-F6DC-4F64-9996-8D53B0285C93}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{33CAC75C-7BCD-4566-90D9-C531CC8BC943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{33CAC75C-7BCD-4566-90D9-C531CC8BC943}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33CAC75C-7BCD-4566-90D9-C531CC8BC943}.Debug|Any CPU.Deploy.0 = Debug|Any CPU

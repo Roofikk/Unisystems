@@ -13,4 +13,21 @@ export class BuildingsService {
   getAllBuildings(): Observable<Building[]> {
     return this.http.get<Building[]>(this.baseApiUrl);
   }
+
+  getBuilding(id: number): Observable<Building> {
+    return this.http.get<Building>(this.baseApiUrl + '/' + id);
+  }
+
+  addBuilding(model: Building): Observable<Building> {
+    model.buildingId = 0;
+    return this.http.post<Building>(this.baseApiUrl, model);
+  }
+
+  updateBuilding(model: Building): Observable<Building> {
+    return this.http.put<Building>(this.baseApiUrl + '/' + model.buildingId, model);
+  }
+
+  deleteBuilding(id: number): Observable<Building> {
+    return this.http.delete<Building>(this.baseApiUrl + '/' + id);
+  }
 }
