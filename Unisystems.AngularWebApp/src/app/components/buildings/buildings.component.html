@@ -1,0 +1,22 @@
+<div class="container mt-4">
+  <h3>Заведения</h3>
+  <table class="table" *ngIf="buildings && buildings.length > 0">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Название</th>
+        <th scope="col">Адрес</th>
+        <th scope="col">Высота этажей</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let building of buildings">
+        <th scope="row">{{ building.buildingId }}</th>
+        <td>{{ building.name }}</td>
+        <td>{{ building.address }}</td>
+        <td>{{ building.floorCount }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="!buildings || buildings.length == 0">Еще нет ни одного заведения</p>
+</div>

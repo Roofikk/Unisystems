@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13.6-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    container_name: rabbitmq
+
+  postgresql:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: RufikRoot123321
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/postgres_data
+
+  unisystems-building-webapi:
+    build:
+      context: .
+      dockerfile: buildings-webapi-dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__DefaultConnection=Host=176.97.100.35;Port=5432;Database=unisystem_buildings;Username=postgres;Password=RufikRoot123321;"
+      - "RabbitMq__Host=176.97.100.35"
+      - "RabbitMq__UserName=guest"
+      - "RabbitMq__Password=guest"
+    depends_on:
+      - postgresql
+      - rabbitmq
+    ports:
+      - "9060:8080"
+      - "9061:8081"
+
+volumes:
+  postgres_data:
