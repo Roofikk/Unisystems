@@ -6,22 +6,31 @@
         <input type="hidden" name="classroomId" [(ngModel)]="classroomId" />
         <div class="mb-3">
           <label for="name" class="form-label">Название кабинета</label><span class="label-required"> *</span>
-          <input type="text" class="form-control" id="name" name="name" autocomplete="off" [(ngModel)]="classroom.name">
+          <input type="text" class="form-control" name="name" required minlength="1" maxlength="255"
+                 autocomplete="off" [(ngModel)]="classroom.name" #name="ngModel">
+          <div *ngIf="name.invalid && (name.dirty || name.touched)">
+            <span class="label-required" *ngIf="name.errors?.['required']">Имя обязательно для ввода</span>
+          </div>
         </div>
         <div class="mb-3">
           <label for="number" class="form-label">Номер кабинета</label><span class="label-required"> *</span>
-          <input type="number" class="form-control" id="number" name="number" autocomplete="off" [(ngModel)]="classroom.number">
+          <input type="number" class="form-control" id="number" name="number" autocomplete="off"
+                 [(ngModel)]="classroom.number" #number="ngModel" required>
+          <span class="label-required" *ngIf="number.value < 0">Значение не может быть меньше 0</span>
+          <span class="label-required" *ngIf="number.errors?.['required']">Необходимо ввести значение</span>
         </div>
         <div class="mb-3">
           <label for="capacity" class="form-label">Вместимость (чел.)</label><span class="label-required"> *</span>
-          <input type="number" class="form-control" id="capacity" name="capacity" [(ngModel)]="classroom.capacity">
+          <input type="number" class="form-control" id="capacity" name="capacity" [(ngModel)]="classroom.capacity" #capacity="ngModel" required>
+          <span class="label-required" *ngIf="capacity.value < 0">Значение не может быть меньше 0</span>
+          <span class="label-required" *ngIf="capacity.errors?.['required']">Необходимо ввести значение</span>
         </div>
         <div class="mb-3">
           <label for="floor" class="form-label">Этаж</label><span class="label-required"> *</span>
           <input type="number" class="form-control" id="floor" name="floor" [(ngModel)]="classroom.floor">
         </div>
         <div class="mb-3">
-          <input type="hidden" name="buildingId" [(ngModel)]="classroom.buildingId" />
+          <input type="hidden" name="roomTypeId" [(ngModel)]="classroom.roomTypeId" #roomTypeId="ngModel" required />
           <div class="d-flex justify-content-between">
             <div class="col-auto">
               <button type="button" class="col-auto btn btn-sm btn-warning" (click)="showAddRoomTypeModal()">Выбрать тип помещения..</button>
@@ -29,9 +38,10 @@
             </div>
             <div class="text-muted">{{ roomTypeName }}</div>
           </div>
+          <span class="label-required" *ngIf="form.submitted && roomTypeId.value == ''">Необходимо выбрать тип помещения</span>
         </div>
         <div class="mb-3">
-          <input type="hidden" name="roomTypeId" [(ngModel)]="classroom.roomTypeId" />
+          <input type="hidden" name="buildingId" [(ngModel)]="classroom.buildingId" #buildingId="ngModel" required />
           <div class="d-flex justify-content-between">
             <div class="col-auto">
               <button type="button" class="btn btn-sm btn-warning" (click)="showAddBuildingModal()">Выбрать здание..</button>
@@ -39,6 +49,7 @@
             </div>
             <div class="text-muted">{{ buildingName }}</div>
           </div>
+          <span class="label-required" *ngIf="form.submitted && buildingId.value == 0">Необходимо выбрать заведение</span>
         </div>
         <hr />
         <div class="d-flex justify-content-between">

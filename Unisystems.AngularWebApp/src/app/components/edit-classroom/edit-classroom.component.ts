@@ -20,7 +20,7 @@ export class EditClassroomComponent implements OnInit {
     capacity: 0,
     floor: 0,
     buildingId: 0,
-    roomTypeId: 0,
+    roomTypeId: '',
   };
 
   @Output() roomTypeName: string = '';

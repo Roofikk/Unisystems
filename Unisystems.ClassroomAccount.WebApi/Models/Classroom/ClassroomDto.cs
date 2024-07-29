@@ -4,6 +4,8 @@ namespace Unisystems.ClassroomAccount.WebApi.Models.Classroom;
 
 public abstract class ClassroomDto
 {
+    [Required(ErrorMessage = "Name is required")]
+    [MaxLength(255, ErrorMessage = "Name must be less than 255 characters")]
     public string Name { get; set; } = null!;
     [Range(0, int.MaxValue, ErrorMessage = "Capacity must be greater than 0")]
     public int Capacity { get; set; }

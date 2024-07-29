@@ -3,6 +3,6 @@ export interface ClassroomModify {
   capacity: number;
   floor: number;
   number: number;
-  roomTypeId: number;
+  roomTypeId: string;
   buildingId: number;
 }

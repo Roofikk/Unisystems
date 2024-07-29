@@ -13,7 +13,7 @@ export class AddBuildingComponent {
     buildingId: 0,
     name: '',
     address: '',
-    floorCount: 0
+    floorCount: 1
   };
 
   constructor(private buildingService: BuildingsService, private router: Router) { }

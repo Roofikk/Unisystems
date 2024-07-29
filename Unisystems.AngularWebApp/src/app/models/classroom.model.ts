@@ -9,7 +9,7 @@ export interface Classroom {
 }
 
 export interface RoomType {
-  roomTypeId: number,
+  roomTypeId: string,
   name: string
 }
 

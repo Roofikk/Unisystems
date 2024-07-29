@@ -18,7 +18,7 @@ export class AddClassroomComponent {
     number: 0,
     capacity: 0,
     floor: 0,
-    roomTypeId: 0,
+    roomTypeId: '',
     buildingId: 0
   };
 

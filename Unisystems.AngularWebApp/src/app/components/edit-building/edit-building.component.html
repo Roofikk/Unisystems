@@ -6,15 +6,21 @@
         <input type="hidden" name="buildingId" [(ngModel)]="editBuilding.buildingId" />
         <div class="mb-3">
           <label for="name" class="form-label">Название заведения</label><span class="label-required"> *</span>
-          <input type="text" class="form-control" id="name" name="name" autocomplete="off" [(ngModel)]="editBuilding.name" />
+          <input type="text" class="form-control" id="name" name="name" autocomplete="off"
+                 [(ngModel)]="editBuilding.name" #name="ngModel" required />
+          <span class="label-required" *ngIf="(form.submitted || name.touched) && name.errors?.['required']">Поле не может быть пустым</span>
         </div>
         <div class="mb-3">
           <label for="address" class="form-label">Адрес</label><span class="label-required"> *</span>
-          <input type="text" class="form-control" id="address" name="address" autocomplete="off" [(ngModel)]="editBuilding.address" />
+          <input type="text" class="form-control" id="address" name="address" autocomplete="off"
+                 [(ngModel)]="editBuilding.address" #address="ngModel" required />
+          <span class="label-required" *ngIf="(form.submitted || address.touched) && address.errors?.['required']">Поле не может быть пустым</span>
         </div>
         <div class="mb-3">
           <label for="floorCount" class="form-label">Количество этажей</label><span class="label-required"> *</span>
-          <input type="number" class="form-control" id="floorCount" name="floorCount" [(ngModel)]="editBuilding.floorCount" />
+          <input type="number" class="form-control" id="floorCount" name="floorCount"
+                 [(ngModel)]="editBuilding.floorCount" #floorCount="ngModel" required />
+          <span class="label-required"></span>
         </div>
         <div class="d-flex justify-content-between">
           <a routerLink="/buildings" class="btn btn-secondary">Отмена</a>
