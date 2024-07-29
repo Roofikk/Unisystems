@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h1 class="modal-title fs-5" id="deleteModalLabel">Выбрать тип кабинета</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <div class="d-flex flex-column gap-2" *ngIf="roomTypes && roomTypes.length > 0">
+    <div class="d-flex justify-content-between align-items-center" *ngFor="let roomType of roomTypes">
+      <div class="col-10">{{ roomType.name }}</div>
+      <div class="col-2">
+        <button type="button" class="btn btn-sm btn-warning" (click)="selectRoomType(roomType)">Выбрать</button>
+      </div>
+    </div>
+  </div>
+  <div class="text-muted" *ngIf="!roomTypes || roomTypes.length == 0">
+    
+  </div>
+</div>
+<div class="modal-footer justify-content-between">
+  <button id="submitDelete" type="button" class="col-auto btn btn-secondary" (click)="activeModal.close('Close click')">Отмена</button>
+</div>

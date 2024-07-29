@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h1 class="modal-title fs-5" id="deleteModalLabel">Выбрать учреждение</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <div class="d-flex flex-column gap-2" *ngIf="buildings && buildings.length > 0">
+    <div class="d-flex justify-content-between align-items-center" *ngFor="let building of buildings">
+      <div class="col-10">Название: {{ building.name }}</div>
+      <div class="col-2">
+        <button type="button" class="btn btn-sm btn-warning" (click)="selectBuilding(building)">Выбрать</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="buildings.length == 0">
+    <div>Сначала необходимо <a [routerLink]="['buildings', 'add']" (click)="activeModal.close()">создать</a> заведение</div>
+  </div>
+</div>
+<div class="modal-footer justify-content-between">
+  <button id="submitDelete" type="button" class="col-auto btn btn-secondary" (click)="activeModal.close('Close click')">Отмена</button>
+</div>

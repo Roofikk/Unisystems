@@ -7,6 +7,11 @@ services:
       - "5672:5672"
       - "15672:15672"
     container_name: rabbitmq
+    healthcheck:
+        test: rabbitmq-diagnostics -q ping
+        interval: 10s
+        timeout: 10s
+        retries: 10
 
   postgresql:
     image: postgres
@@ -24,17 +29,18 @@ services:
       context: .
       dockerfile: buildings-webapi-dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - "ConnectionStrings__DefaultConnection=Host=176.97.100.35;Port=5432;Database=unisystem_buildings;Username=postgres;Password=RufikRoot123321;"
       - "RabbitMq__Host=176.97.100.35"
       - "RabbitMq__UserName=guest"
       - "RabbitMq__Password=guest"
     depends_on:
-      - postgresql
-      - rabbitmq
+      postgresql:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
     ports:
-      - "9060:8080"
-      - "9061:8081"
+      - "7158:8080"
 
 volumes:
   postgres_data:

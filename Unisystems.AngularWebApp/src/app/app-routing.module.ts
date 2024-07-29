@@ -4,6 +4,8 @@ import { BuildingsComponent } from './components/buildings/buildings.component';
 import { ClassroomsComponent } from './components/classrooms/classrooms.component';
 import { AddBuildingComponent } from './components/add-building/add-building.component';
 import { EditBuildingComponent } from './components/edit-building/edit-building.component';
+import { AddClassroomComponent } from './components/add-classroom/add-classroom.component';
+import { EditClassroomComponent } from './components/edit-classroom/edit-classroom.component';
 
 const routes: Routes = [
   {
@@ -15,12 +17,20 @@ const routes: Routes = [
     component: AddBuildingComponent
   },
   {
+    path: 'buildings/edit/:id',
+    component: EditBuildingComponent
+  },
+  {
     path: 'classrooms',
     component: ClassroomsComponent
   },
   {
-    path: 'buildings/edit/:id',
-    component: EditBuildingComponent
+    path: 'classrooms/add',
+    component: AddClassroomComponent
+  },
+  {
+    path: 'classrooms/edit/:id',
+    component: EditClassroomComponent
   }
 ];
 

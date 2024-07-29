@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
 using Unisystems.ClassroomAccount.DataContext;
 using Unisystems.ClassroomAccount.DataContext.Entities;
 
@@ -14,9 +13,36 @@ public class BuildingService : IBuildingService
         _context = context;
     }
 
+    public async Task<List<Building>> GetAllAsync()
+    {
+        return await _context.Buildings
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    public async Task<Building?> GetByIdAsync(int id)
+    {
+        return await _context.Buildings
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.BuildingId == id);
+    }
+
     public async Task<Building> CreateAsync(Building building)
     {
         await _context.Buildings.AddAsync(building);
+        return building;
+    }
+
+    public async Task<bool> IsExistsAsync(int id)
+    {
+        return await _context.Buildings
+            .AsNoTracking()
+            .AnyAsync(x => x.BuildingId == id);
+    }
+
+    public Building Update(Building building)
+    {
+        _context.Buildings.Update(building);
         return building;
     }
 
@@ -27,12 +53,6 @@ public class BuildingService : IBuildingService
             .ExecuteDeleteAsync();
 
         return count > 0;
-    }
-
-    public Building Update(Building building)
-    {
-        _context.Buildings.Update(building);
-        return building;
     }
 
     public async Task SaveChangesAsync()

@@ -9,7 +9,7 @@
         <th scope="col">#</th>
         <th scope="col">Название</th>
         <th scope="col">Адрес</th>
-        <th scope="col">Высота этажей</th>
+        <th scope="col">Количество этажей</th>
         <th scope="col">Действия</th>
       </tr>
     </thead>
@@ -30,10 +30,3 @@
   </table>
   <p class="mt-3 text-muted" *ngIf="!buildings || buildings.length == 0">Еще нет ни одного заведения</p>
 </div>
-
-<script>
-  function showDeleteModal(buildingId) {
-    $('#deleteModal').find('#buildingId').attr('value', buildingId);
-    $('#deleteModal').modal('show');
-  }
-</script>

@@ -1,5 +1,8 @@
 <div class="container mt-4">
   <h3>Кабинеты</h3>
+  <div>
+    <a [routerLink]="['add']" class="btn btn-warning">Добавить</a>
+  </div>
   <table class="table" *ngIf="classrooms && classrooms.length > 0">
     <thead>
       <tr>
@@ -8,6 +11,8 @@
         <th scope="col">Вместимость (чел.)</th>
         <th scope="col">Этаж</th>
         <th scope="col">Номер</th>
+        <th scope="col">Тип помещения</th>
+        <th scope="col">Заведение</th>
         <th scope="col">Действия</th>
       </tr>
     </thead>
@@ -18,13 +23,16 @@
         <td>{{ classroom.capacity }}</td>
         <td>{{ classroom.floor }}</td>
         <td>{{ classroom.number }}</td>
+        <td>{{ classroom.roomType.name }}</td>
+        <td>{{ classroom.building.name }}</td>
         <td>
-          <div class="">
-            
+          <div class="d-flex gap-2">
+            <a [routerLink]="['edit', classroom.classroomId]" class="btn btn-sm btn-primary">Изменить</a>
+            <button type="button" class="btn btn-sm btn-danger" (click)="showDeleteModal(classroom.classroomId)">Удалить</button>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
-  <p *ngIf="!classrooms || classrooms.length == 0">Еще нет ни одного заведения</p>
+  <p class="text-muted mt-3" *ngIf="!classrooms || classrooms.length == 0">Еще нет ни одного заведения</p>
 </div>

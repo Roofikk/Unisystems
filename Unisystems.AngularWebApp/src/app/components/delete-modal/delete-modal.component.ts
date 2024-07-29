@@ -1,6 +1,7 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BuildingsService } from '../../services/buildings.service';
+import { DeleteModal } from '../../models/delete-modal.model';
 
 @Component({
   selector: 'app-delete-modal',
@@ -10,22 +11,11 @@ import { BuildingsService } from '../../services/buildings.service';
 
 export class DeleteModalComponent {
   activeModal = inject(NgbActiveModal);
-  buildingId: number = 0;
 
-  constructor(private buildibgService: BuildingsService) { }
-  
-  delete() {
-    this.buildibgService.deleteBuilding(this.buildingId).subscribe({
-      next: () => {
-        console.log('deleted');
-
-      },
-      error: (error) => {
-        console.log(error);
-      },
-      complete: () => {
-        this.activeModal.close();
-      }
-    })
+  model: DeleteModal = {
+    entityId: 0,
+    title: '',
+    message: '',
+    deleteAction: () => { }
   }
 }

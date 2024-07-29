@@ -1,0 +1,50 @@
+<div class="container pt-2">
+  <h3>Создание нового кабинета</h3>
+  <div class="row mt-4">
+    <div class="col-xl-4 col-lg-6 col-12">
+      <form #form="ngForm" (ngSubmit)="addClassroom()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Название кабинета</label><span class="label-required"> *</span>
+          <input type="text" class="form-control" id="name" name="name" autocomplete="off" [(ngModel)]="newClassroom.name">
+        </div>
+        <div class="mb-3">
+          <label for="number" class="form-label">Номер кабинета</label><span class="label-required"> *</span>
+          <input type="number" class="form-control" id="number" name="number" autocomplete="off" [(ngModel)]="newClassroom.number">
+        </div>
+        <div class="mb-3">
+          <label for="capacity" class="form-label">Вместимость (чел.)</label><span class="label-required"> *</span>
+          <input type="number" class="form-control" id="capacity" name="capacity" [(ngModel)]="newClassroom.capacity">
+        </div>
+        <div class="mb-3">
+          <label for="floor" class="form-label">Этаж</label><span class="label-required"> *</span>
+          <input type="number" class="form-control" id="floor" name="floor" [(ngModel)]="newClassroom.floor">
+        </div>
+        <div class="mb-3">
+          <input type="hidden" name="buildingId" [(ngModel)]="newClassroom.buildingId" />
+          <div class="d-flex justify-content-between">
+            <div class="col-auto">
+              <button type="button" class="col-auto btn btn-sm btn-warning" (click)="showAddRoomTypeModal()">Выбрать тип помещения..</button>
+              <span class="label-required"> *</span>
+            </div>
+            <div class="text-muted">{{ roomTypeName }}</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <input type="hidden" name="roomTypeId" [(ngModel)]="newClassroom.roomTypeId" />
+          <div class="d-flex justify-content-between">
+            <div class="col-auto">
+              <button type="button" class="btn btn-sm btn-warning" (click)="showAddBuildingModal()">Выбрать здание..</button>
+              <span class="label-required"> *</span>
+            </div>
+            <div class="text-muted">{{ buildingName }}</div>
+          </div>
+        </div>
+        <hr />
+        <div class="d-flex justify-content-between">
+          <a routerLink="/classrooms" class="btn btn-secondary">Отмена</a>
+          <button type="submit" class="btn btn-primary">Создать</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
