@@ -17,9 +17,9 @@ namespace Unisystems.ClassroomAccount.DataContext.Migrations
                 columns: table => new
                 {
                     BuildingId = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Added = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Added = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,7 +48,7 @@ namespace Unisystems.ClassroomAccount.DataContext.Migrations
                     Capacity = table.Column<int>(type: "integer", nullable: false),
                     Floor = table.Column<int>(type: "integer", nullable: false),
                     Number = table.Column<int>(type: "integer", nullable: false),
-                    RoomTypeId = table.Column<string>(type: "varchar(24)", nullable: false),
+                    RoomTypeId = table.Column<string>(type: "varchar(24)", nullable: true),
                     BuildingId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -65,7 +65,7 @@ namespace Unisystems.ClassroomAccount.DataContext.Migrations
                         column: x => x.RoomTypeId,
                         principalTable: "RoomTypes",
                         principalColumn: "KeyName",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

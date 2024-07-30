@@ -11,7 +11,7 @@ using Unisystems.BuildingAccount.DataContext;
 namespace Unisystems.BuildingAccount.DataContext.Migrations
 {
     [DbContext(typeof(BuildingContext))]
-    [Migration("20240725145736_Initial")]
+    [Migration("20240730104552_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace Unisystems.BuildingAccount.DataContext.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Unisystem.BuildingAccount.DataContext.Building", b =>
+            modelBuilder.Entity("Unisystems.BuildingAccount.DataContext.Building", b =>
                 {
                     b.Property<int>("BuildingId")
                         .ValueGeneratedOnAdd()

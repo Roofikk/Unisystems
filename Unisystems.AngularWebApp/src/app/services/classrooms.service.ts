@@ -9,7 +9,7 @@ import { ClassroomModify } from '../models/classroomModify.model';
   providedIn: 'root'
 })
 export class ClassroomsService {
-  baseApiUrl = 'https://localhost:7289/api/'
+  baseApiUrl = 'http://localhost:7289/api/'
   constructor(private http: HttpClient) { }
 
   getAllClassrooms(): Observable<Classroom[]> {

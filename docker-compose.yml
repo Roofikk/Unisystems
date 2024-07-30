@@ -24,13 +24,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/postgres_data
 
-  unisystems-building-webapi:
+  buildings-webapi:
     build:
       context: .
       dockerfile: buildings-webapi-dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - "ConnectionStrings__DefaultConnection=Host=176.97.100.35;Port=5432;Database=unisystem_buildings;Username=postgres;Password=RufikRoot123321;"
+      - ASPNETCORE_ENVIRONMENT=Release
+      - "ConnectionStrings__DefaultConnection=Host=176.97.100.35;Port=5432;Database=unisystems_buildings;Username=postgres;Password=RufikRoot123321;"
       - "RabbitMq__Host=176.97.100.35"
       - "RabbitMq__UserName=guest"
       - "RabbitMq__Password=guest"
@@ -41,6 +41,33 @@ services:
         condition: service_healthy
     ports:
       - "7158:8080"
+
+  classrooms-webapi:
+    build:
+      context: .
+      dockerfile: classrooms-webapi-dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+      - "ConnectionStrings__DefaultConnection=Host=176.97.100.35;Port=5432;Database=unisystems_classrooms;Username=postgres;Password=RufikRoot123321;"
+      - "RabbitMq__Host=176.97.100.35"
+      - "RabbitMq__UserName=guest"
+      - "RabbitMq__Password=guest"
+    depends_on:
+      postgresql:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "7289:8080"
+  angular-webapp:
+    build:
+      context: .
+      dockerfile: angular-webapp
+    depends_on:
+      - buildings-webapi
+      - classrooms-webapi
+    ports:
+      - "4200:4200"
 
 volumes:
   postgres_data:

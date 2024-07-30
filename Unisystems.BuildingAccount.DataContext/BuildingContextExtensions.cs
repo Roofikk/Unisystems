@@ -16,7 +16,7 @@ public static class BuildingContextExtensions
         {
             options.UseNpgsql(connectionString, npgOptions =>
             {
-                npgOptions.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds);
+                npgOptions.CommandTimeout((int)TimeSpan.FromMinutes(1).TotalSeconds);
                 npgOptions.EnableRetryOnFailure(
                     maxRetryCount: 5,
                     maxRetryDelay: TimeSpan.FromSeconds(30),

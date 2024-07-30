@@ -23,7 +23,7 @@ public class ClassroomContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseNpgsql(
-                "Host=localhost;Port=5432;Database=unisystem_classrooms;Username=postgres;Password=root1234",
+                "Host=localhost;Port=5432;Database=unisystems_classrooms;Username=postgres;Password=root1234",
                 npgOptions =>
                 {
                     npgOptions.CommandTimeout((int)TimeSpan.FromMinutes(5).TotalSeconds);

@@ -20,7 +20,7 @@ public class BuildingContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=unisystem_buildings;Username=postgres;Password=root1234;");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=unisystems_buildings;Username=postgres;Password=root1234;");
         }
     }
 

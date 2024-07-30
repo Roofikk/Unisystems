@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class BuildingsService {
-  baseApiUrl = 'https://localhost:7158/api/Buildings';
+  baseApiUrl = 'http://localhost:7158/api/Buildings';
   constructor(private http: HttpClient) { }
 
   getAllBuildings(): Observable<Building[]> {

@@ -21,7 +21,7 @@ namespace Unisystems.BuildingAccount.DataContext.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Unisystem.BuildingAccount.DataContext.Building", b =>
+            modelBuilder.Entity("Unisystems.BuildingAccount.DataContext.Building", b =>
                 {
                     b.Property<int>("BuildingId")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace Unisystems.BuildingAccount.DataContext.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Buildings", (string)null);
+                    b.ToTable("Buildings");
                 });
 #pragma warning restore 612, 618
         }
