@@ -4,6 +4,8 @@ import { ClassroomsService } from '../../services/classrooms.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
+import { ClassroomSortBy } from '../../models/classroom-sort-by.model';
+import { Direction, GetQueryParamsModel } from '../../models/get-query-params.modal';
 
 @Component({
   selector: 'app-classrooms',
@@ -11,6 +13,19 @@ import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
   styleUrl: './classrooms.component.css'
 })
 export class ClassroomsComponent {
+  sortBy = ClassroomSortBy;
+  direction = Direction;
+
+  totalItems: number = 0;
+  queryParams: GetQueryParamsModel = {
+    pagination: {
+      currentPage: 1,
+      pageSize: 10,
+    },
+    direction: Direction.Asc,
+    sortBy: ClassroomSortBy.Number
+  };
+
   classrooms: Classroom[] = [];
   private modalService = inject(NgbModal);
 
@@ -18,15 +33,39 @@ export class ClassroomsComponent {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.classroomService.getAllClassrooms()
-      .subscribe({
-        next: (classrooms) => {
-          this.classrooms = classrooms;
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      });
+    this.classroomService.getAllClassrooms(this.queryParams).subscribe({
+      next: (classrooms) => {
+        this.classrooms = classrooms;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  getSortedClassrooms(sortBy: ClassroomSortBy, direction: Direction) {
+    this.queryParams.sortBy = sortBy;
+    this.queryParams.direction = direction;
+    this.classroomService.getAllClassrooms(this.queryParams).subscribe({
+      next: (classrooms) => {
+        this.classrooms = classrooms;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  getClassrooms(page: number) {
+    this.queryParams.pagination.currentPage = page;
+    this.classroomService.getAllClassrooms(this.queryParams).subscribe({
+      next: (classrooms) => {
+        this.classrooms = classrooms;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   showDeleteModal(classroomId: number) {
@@ -39,16 +78,15 @@ export class ClassroomsComponent {
       deleteAction: () => {
         this.classroomService.deleteClassroom(classroomId).subscribe({
           next: () => {
-            this.classroomService.getAllClassrooms()
-              .subscribe({
-                next: (classrooms) => {
-                  this.classrooms = classrooms;
-                  modalRef.close();
-                },
-                error: (response) => {
-                  console.log(response);
-                }
-              });
+            this.classroomService.getAllClassrooms(this.queryParams).subscribe({
+              next: (classrooms) => {
+                this.classrooms = classrooms;
+                modalRef.close();
+              },
+              error: (response) => {
+                console.log(response);
+              }
+            });
           },
           error: (err) => {
             console.log(err)

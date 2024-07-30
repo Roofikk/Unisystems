@@ -2,16 +2,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Building } from '../models/building.model';
 import { HttpClient } from '@angular/common/http';
+import { PaginationInfo } from '../models/pagination-info.model';
+import { GetQueryParamsModel } from '../models/get-query-params.modal';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BuildingsService {
-  baseApiUrl = 'http://localhost:7158/api/Buildings';
+  baseApiUrl = 'https://localhost:7158/api/Buildings';
   constructor(private http: HttpClient) { }
 
-  getAllBuildings(): Observable<Building[]> {
-    return this.http.get<Building[]>(this.baseApiUrl);
+  getItemsAmount(): Observable<number> {
+    return this.http.get<number>(this.baseApiUrl + '/total-items');
+  }
+
+  getAllBuildings(queryParams: GetQueryParamsModel): Observable<Building[]> {
+    return this.http.get<Building[]>(this.baseApiUrl + '?currentPage=' + queryParams.pagination.currentPage +
+      '&pageSize=' + queryParams.pagination.pageSize + '&sortBy=' + queryParams.sortBy + '&direction=' + queryParams.direction);
   }
 
   getBuilding(id: number): Observable<Building> {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Unisystems.BuildingAccount.DataContext;
 using Unisystems.BuildingAccount.WebApi.Models;
 using Unisystems.ClassroomAccount.WebApi.Services.RabbitMq;
@@ -24,16 +25,62 @@ public class BuildingsController : ControllerBase
         _rabbitMqService = rabbitMqService;
     }
 
+    // GET: api/Buildings/pagination
+    [HttpGet("total-items")]
+    public async Task<ActionResult<int>> GetTotalItems(int page = 1, int pageSize = 10)
+    {
+        return await _context.Buildings.CountAsync();
+    }
+
     // GET: api/Buildings
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Building>>> GetBuildings()
+    public async Task<ActionResult<IEnumerable<BuildingRecieveDto>>> GetBuildings(
+        [FromQuery] PaginationModel pagination,
+        [FromQuery] SortModel sortModel)
     {
-        return await _context.Buildings.ToListAsync();
+        var buildings = _context.Buildings.AsQueryable();
+
+        sortModel.SortBy ??= "BuildingId";
+        // Сортировка
+        if (sortModel != null && _context.Buildings.EntityType.FindProperty(sortModel.SortBy) != null)
+        {
+            var parameter = Expression.Parameter(typeof(Building), "item");
+            var member = Expression.PropertyOrField(parameter, sortModel.SortBy);
+            var keySelector = Expression.Lambda(member, parameter);
+
+            var methodCall = Expression.Call(
+                typeof(Queryable), 
+                sortModel.Direction == "desc" ? "OrderByDescending" : "OrderBy",
+                [typeof(Building), member.Type],
+                buildings.Expression,
+                Expression.Quote(keySelector));
+
+            buildings = buildings.Provider.CreateQuery<Building>(methodCall);
+        }
+
+        // Пагинация
+        if (pagination != null)
+        {
+            var totalItems = await _context.Buildings.CountAsync();
+            pagination.CurrentPage = pagination.CurrentPage > 0 ? pagination.CurrentPage : 1;
+            pagination.PageSize = pagination.PageSize > 0 ? pagination.PageSize : 10;
+
+            if (pagination.CurrentPage > totalItems / pagination.PageSize + 1)
+            {
+                return Array.Empty<BuildingRecieveDto>();
+            }
+
+            buildings = buildings
+                .Skip((pagination.CurrentPage - 1) * pagination.PageSize)
+                .Take(pagination.PageSize);
+        }
+
+        return await buildings.Select(x => MapBuilding(x)).ToListAsync();
     }
 
     // GET: api/Buildings/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Building>> GetBuilding(int id)
+    public async Task<ActionResult<BuildingRecieveDto>> GetBuilding(int id)
     {
         var building = await _context.Buildings.FindAsync(id);
 
@@ -42,12 +89,12 @@ public class BuildingsController : ControllerBase
             return NotFound();
         }
 
-        return building;
+        return MapBuilding(building);
     }
 
     // POST: api/Buildings
     [HttpPost]
-    public async Task<ActionResult<Building>> PostBuilding(BuildingModifyDto building)
+    public async Task<ActionResult<BuildingRecieveDto>> PostBuilding(BuildingModifyDto building)
     {
         var buildingEntity = _context.Buildings.Add(new Building
         {
@@ -127,7 +174,24 @@ public class BuildingsController : ControllerBase
         return NoContent();
     }
 
-    private BuildingRecieveDto MapBuilding(Building building)
+    private object? GetPropertyValue(Building obj, string propertyName)
+    {
+        if (obj == null || string.IsNullOrEmpty(propertyName))
+        {
+            return null;
+        }
+
+        var property = obj.GetType().GetProperty(propertyName);
+
+        if (property == null)
+        {
+            return obj.BuildingId;
+        }
+
+        return property?.GetValue(obj);
+    }
+
+    private static BuildingRecieveDto MapBuilding(Building building)
     {
         return new BuildingRecieveDto
         {
@@ -138,8 +202,8 @@ public class BuildingsController : ControllerBase
         };
     }
 
-    private IEnumerable<BuildingRecieveDto> MapBuildings(IEnumerable<Building> buildings)
+    private static List<BuildingRecieveDto> MapBuildings(IEnumerable<Building> buildings)
     {
-        return buildings.Select(MapBuilding);
+        return buildings.Select(MapBuilding).ToList();
     }
 }

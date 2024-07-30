@@ -14,6 +14,7 @@ import { AddClassroomComponent } from './components/add-classroom/add-classroom.
 import { EditClassroomComponent } from './components/edit-classroom/edit-classroom.component';
 import { AddRoomTypeModalComponent } from './components/add-room-type-modal/add-room-type-modal.component';
 import { AddBuildingModalComponent } from './components/add-building-modal/add-building-modal.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AddBuildingModalComponent } from './components/add-building-modal/add-b
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    NgxPaginationModule
   ],
   providers: [
     provideHttpClient(),

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Unisystems.ClassroomAccount.DataContext;
 using Unisystems.ClassroomAccount.DataContext.Entities;
 using Unisystems.ClassroomAccount.WebApi.Models;
@@ -22,9 +23,42 @@ public class ClassroomsController : ControllerBase
 
     // GET: api/Classrooms
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ClassroomRetrieveDto>>> GetClassrooms()
+    public async Task<ActionResult<IEnumerable<ClassroomRetrieveDto>>> GetClassrooms(
+        [FromQuery] SortModel sortModel, [FromQuery] PaginationModel paginationModel)
     {
-        return await _context.Classrooms
+        var query = _context.Classrooms.AsQueryable();
+
+        sortModel.SortBy ??= "ClassroomId";
+        if (sortModel != null && _context.Classrooms.EntityType.FindProperty(sortModel.SortBy) != null)
+        {
+            var parameter = Expression.Parameter(typeof(Classroom), "x");
+            var member = Expression.Property(parameter, sortModel.SortBy);
+            var keySelector = Expression.Lambda(member, parameter);
+
+            var methodCall = Expression.Call(
+                typeof(Queryable),
+                sortModel.Direction == "desc" ? "OrderByDescending" : "OrderBy",
+                [typeof(Classroom), member.Type],
+                query.Expression,
+                Expression.Quote(keySelector));
+
+            query = query.Provider.CreateQuery<Classroom>(methodCall);
+        }
+
+        var totalItems = await _context.Classrooms.CountAsync();
+        paginationModel.CurrentPage = totalItems > 0 ? paginationModel.CurrentPage : 1;
+        paginationModel.PageSize = paginationModel.PageSize > 0 ? paginationModel.PageSize : 10;
+
+        if (paginationModel.CurrentPage > totalItems / paginationModel.PageSize + 1)
+        {
+            return Array.Empty<ClassroomRetrieveDto>();
+        }
+
+        query = query
+            .Skip((paginationModel.CurrentPage - 1) * paginationModel.PageSize)
+            .Take(paginationModel.PageSize);
+
+        return await query
             .Include(x => x.Building)
             .Include(x => x.RoomType)
             .AsNoTracking()

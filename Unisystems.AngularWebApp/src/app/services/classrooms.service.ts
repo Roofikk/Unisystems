@@ -4,16 +4,18 @@ import { Observable } from 'rxjs';
 import { Classroom, RoomType } from '../models/classroom.model';
 import { Building } from '../models/building.model';
 import { ClassroomModify } from '../models/classroomModify.model';
+import { GetQueryParamsModel } from '../models/get-query-params.modal';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClassroomsService {
-  baseApiUrl = 'http://localhost:7289/api/'
+  baseApiUrl = 'https://localhost:7289/api/'
   constructor(private http: HttpClient) { }
 
-  getAllClassrooms(): Observable<Classroom[]> {
-    return this.http.get<Classroom[]>(this.baseApiUrl + 'Classrooms');
+  getAllClassrooms(queryParams: GetQueryParamsModel): Observable<Classroom[]> {
+    return this.http.get<Classroom[]>(this.baseApiUrl + 'Classrooms?currentPage=' + queryParams.pagination.currentPage +
+      '&pageSize=' + queryParams.pagination.pageSize + '&sortBy=' + queryParams.sortBy + '&direction=' + queryParams.direction);
   }
 
   getClassroom(id: number): Observable<Classroom> {
