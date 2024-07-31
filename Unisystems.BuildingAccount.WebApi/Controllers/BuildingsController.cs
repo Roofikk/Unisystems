@@ -35,15 +35,16 @@ public class BuildingsController : ControllerBase
     // GET: api/Buildings
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BuildingRecieveDto>>> GetBuildings(
-        [FromQuery] PaginationModel pagination,
-        [FromQuery] SortModel sortModel)
+        [FromQuery] PaginationModel? pagination = null,
+        [FromQuery] SortModel? sortModel = null)
     {
         var buildings = _context.Buildings.AsQueryable();
 
-        sortModel.SortBy ??= "BuildingId";
         // Сортировка
         if (sortModel != null && _context.Buildings.EntityType.FindProperty(sortModel.SortBy) != null)
         {
+            sortModel.SortBy ??= "BuildingId";
+
             var parameter = Expression.Parameter(typeof(Building), "item");
             var member = Expression.PropertyOrField(parameter, sortModel.SortBy);
             var keySelector = Expression.Lambda(member, parameter);

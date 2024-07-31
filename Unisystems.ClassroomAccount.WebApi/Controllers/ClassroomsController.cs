@@ -24,13 +24,13 @@ public class ClassroomsController : ControllerBase
     // GET: api/Classrooms
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ClassroomRetrieveDto>>> GetClassrooms(
-        [FromQuery] SortModel sortModel, [FromQuery] PaginationModel paginationModel)
+        [FromQuery] SortModel? sortModel = null, [FromQuery] PaginationModel? paginationModel = null)
     {
         var query = _context.Classrooms.AsQueryable();
 
-        sortModel.SortBy ??= "ClassroomId";
-        if (sortModel != null && _context.Classrooms.EntityType.FindProperty(sortModel.SortBy) != null)
+        if (sortModel != null && _context.Classrooms.EntityType.FindProperty(sortModel.SortBy ?? "ClassroomId") != null)
         {
+            sortModel.SortBy ??= "ClassroomId";
             var parameter = Expression.Parameter(typeof(Classroom), "x");
             var member = Expression.Property(parameter, sortModel.SortBy);
             var keySelector = Expression.Lambda(member, parameter);
@@ -45,18 +45,21 @@ public class ClassroomsController : ControllerBase
             query = query.Provider.CreateQuery<Classroom>(methodCall);
         }
 
-        var totalItems = await _context.Classrooms.CountAsync();
-        paginationModel.CurrentPage = totalItems > 0 ? paginationModel.CurrentPage : 1;
-        paginationModel.PageSize = paginationModel.PageSize > 0 ? paginationModel.PageSize : 10;
-
-        if (paginationModel.CurrentPage > totalItems / paginationModel.PageSize + 1)
+        if (paginationModel != null)
         {
-            return Array.Empty<ClassroomRetrieveDto>();
-        }
+            var totalItems = await _context.Classrooms.CountAsync();
+            paginationModel.CurrentPage = totalItems > 0 ? paginationModel.CurrentPage : 1;
+            paginationModel.PageSize = paginationModel.PageSize > 0 ? paginationModel.PageSize : 10;
 
-        query = query
-            .Skip((paginationModel.CurrentPage - 1) * paginationModel.PageSize)
-            .Take(paginationModel.PageSize);
+            if (paginationModel.CurrentPage > totalItems / paginationModel.PageSize + 1)
+            {
+                return Array.Empty<ClassroomRetrieveDto>();
+            }
+
+            query = query
+                .Skip((paginationModel.CurrentPage - 1) * paginationModel.PageSize)
+                .Take(paginationModel.PageSize);
+        }
 
         return await query
             .Include(x => x.Building)

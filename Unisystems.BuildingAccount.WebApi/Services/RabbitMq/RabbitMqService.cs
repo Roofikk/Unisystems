@@ -7,9 +7,9 @@ public class RabbitMqService : IRabbitMqService
 {
     private readonly IPublishEndpoint _publishEndpoint;
 
-    public RabbitMqService(IBus bus)
+    public RabbitMqService(IPublishEndpoint publishEndpoint)
     {
-        _publishEndpoint = bus;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task CreateBuilding(BuildingCreated buildingCreated)

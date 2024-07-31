@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, OnInit, Output } from '@angular/core';
 import { ClassroomModify } from '../../models/classroomModify.model';
 import { ClassroomsService } from '../../services/classrooms.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
