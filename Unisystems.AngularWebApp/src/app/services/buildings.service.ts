@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Building } from '../models/building.model';
 import { HttpClient } from '@angular/common/http';
-import { PaginationInfo } from '../models/pagination-info.model';
 import { GetQueryParamsModel } from '../models/get-query-params.modal';
 
 @Injectable({
