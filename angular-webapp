@@ -2,12 +2,19 @@
 # Get your appname from the package-lock.json file of you angular project 
 
 # Stage 1
-FROM node:latest as node
+FROM node:latest
 WORKDIR /app
 COPY "Unisystems.AngularWebApp" .
 RUN npm install
-RUN npm run build  --prod
+RUN npm install -g @angular/cli
+
+ENV APP_NAME='unisystems-angular-webapp'
+ENV ROUTING='true'
+ENV STANDALONE='false'
+ENV STRICT='true'
+ENV STYLE='scss'
 
 # Stage 2
-FROM nginx:alpine
-COPY --from=node /app/dist/unisystems.angular-web-app /usr/share/nginx/html
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200"]
+
+EXPOSE 4200

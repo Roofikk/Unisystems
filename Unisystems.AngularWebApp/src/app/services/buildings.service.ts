@@ -9,7 +9,7 @@ import { GetQueryParamsModel } from '../models/get-query-params.modal';
   providedIn: 'root'
 })
 export class BuildingsService {
-  baseApiUrl = 'https://localhost:7158/api/Buildings';
+  baseApiUrl = 'http://localhost:7158/api/Buildings';
   constructor(private http: HttpClient) { }
 
   getItemsAmount(): Observable<number> {

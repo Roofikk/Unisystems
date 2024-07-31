@@ -10,7 +10,7 @@ import { GetQueryParamsModel } from '../models/get-query-params.modal';
   providedIn: 'root'
 })
 export class ClassroomsService {
-  baseApiUrl = 'https://localhost:7289/api/'
+  baseApiUrl = 'http://localhost:7289/api/'
   constructor(private http: HttpClient) { }
 
   getAllClassrooms(queryParams: GetQueryParamsModel): Observable<Classroom[]> {

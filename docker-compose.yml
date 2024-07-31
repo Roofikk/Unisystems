@@ -68,6 +68,8 @@ services:
       - classrooms-webapi
     ports:
       - "4200:4200"
+    environment:
+      - STYLE=css
 
 volumes:
   postgres_data:
