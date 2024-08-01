@@ -52,6 +52,70 @@ public class ColumnsService : IColumnsService
                     };
                 }
 
+                if (_context.Entry(classroom).State == EntityState.Modified 
+                    && await _context.Classrooms.AnyAsync(x => x.ClassroomId == classroom.ClassroomId))
+                {
+                    switch (existColumn.ColumnTypeId)
+                    {
+                        case nameof(InputColumnValue):
+                            _context.InputColumnValues.Update(new InputColumnValue
+                            {
+                                ClassroomId = classroom.ClassroomId,
+                                ColumnId = existColumn.ColumnId,
+                                Value = column.ColumnValue
+                            });
+                            break;
+                        case nameof(TextAreaColumnValue):
+                            _context.TextAreaColumnValues.Update(new TextAreaColumnValue
+                            {
+                                ClassroomId = classroom.ClassroomId,
+                                ColumnId = existColumn.ColumnId,
+                                Value = column.ColumnValue
+                            });
+                            break;
+                        case nameof(IntColumnValue):
+                            if (!int.TryParse(column.ColumnValue, out var intValue))
+                            {
+                                return new AddRangeColumnValuesResult
+                                {
+                                    Success = false,
+                                    Message = $"Column value is not an integer: {column.ColumnValue}"
+                                };
+                            }
+
+                            _context.IntColumnValues.Update(new IntColumnValue
+                            {
+                                ClassroomId = classroom.ClassroomId,
+                                ColumnId = existColumn.ColumnId,
+                                Value = intValue
+                            });
+                            break;
+                        case nameof(DoubleColumnValue):
+                            if (!double.TryParse(column.ColumnValue, out var doubleValue))
+                            {
+                                return new AddRangeColumnValuesResult
+                                {
+                                    Success = false,
+                                    Message = $"Column value is not a double: {column.ColumnValue}"
+                                };
+                            }
+
+                            _context.DoubleColumnValues.Update(new DoubleColumnValue
+                            {
+                                ClassroomId = classroom.ClassroomId,
+                                ColumnId = existColumn.ColumnId,
+                                Value = doubleValue
+                            });
+                            break;
+                        default:
+                            return new AddRangeColumnValuesResult
+                            {
+                                Success = false,
+                                Message = $"Unknown column type: {existColumn.ColumnTypeId}"
+                            };
+                    }
+                }
+
                 switch (existColumn.ColumnType.ColumnTypeId)
                 {
                     case nameof(InputColumnValue):
