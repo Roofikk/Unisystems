@@ -7,6 +7,7 @@ using Unisystems.ClassroomAccount.DataContext.Entities;
 using Unisystems.ClassroomAccount.WebApi.ColumnsServices;
 using Unisystems.ClassroomAccount.WebApi.Controllers;
 using Unisystems.ClassroomAccount.WebApi.Models.Classroom;
+using Unisystems.ClassroomAccount.WebApi.Models.Columns;
 
 namespace Unisystems.ClassroomWebApi.Tests.Controllers;
 
@@ -14,6 +15,7 @@ public class ClassroomsControllerTests
 {
     private readonly ClassroomContext _context;
     private readonly ClassroomsController _controller;
+    private readonly Mock<IColumnsService> _columnService;
 
     public ClassroomsControllerTests()
     {
@@ -23,8 +25,8 @@ public class ClassroomsControllerTests
 
         _context = new ClassroomContext(options);
         var logger = new Mock<ILogger<ClassroomsController>>(MockBehavior.Default);
-        var columnService = new Mock<IColumnsService>(MockBehavior.Default);
-        _controller = new ClassroomsController(_context, logger.Object, columnService.Object);
+        _columnService = new Mock<IColumnsService>(MockBehavior.Default);
+        _controller = new ClassroomsController(_context, logger.Object, _columnService.Object);
     }
 
     [Fact]
@@ -87,6 +89,11 @@ public class ClassroomsControllerTests
     {
         // Arrange
         await Initialize();
+        _columnService.Setup(x => x.AddRangeColumnValuesAsync(It.IsAny<Classroom>(), It.IsAny<List<ColumnModifyDto>>()))
+            .ReturnsAsync(new AddRangeColumnValuesResult
+            {
+                Success = true,
+            });
 
         // Act
         var result = await _controller.PostClassroom(new ClassroomModifyDto
@@ -110,6 +117,11 @@ public class ClassroomsControllerTests
     {
         // Arrange
         await Initialize();
+        _columnService.Setup(x => x.AddRangeColumnValuesAsync(It.IsAny<Classroom>(), It.IsAny<List<ColumnModifyDto>>()))
+            .ReturnsAsync(new AddRangeColumnValuesResult
+            {
+                Success = true,
+            });
 
         // Act
         var result = await _controller.PutClassroom(1, new ClassroomModifyDto
@@ -120,6 +132,7 @@ public class ClassroomsControllerTests
             Floor = 1,
             BuildingId = 1,
             RoomTypeId = "Room Type: 1",
+            Columns = []
         });
 
         // Assert
@@ -170,6 +183,7 @@ public class ClassroomsControllerTests
         {
             BuildingId = i,
             Name = $"Building Name: {i}",
+            FloorCount = i % 3,
             Added = DateTimeOffset.Now,
             LastModified = DateTimeOffset.Now,
             Classrooms = Enumerable.Range(1, 10).Select(j => new Classroom

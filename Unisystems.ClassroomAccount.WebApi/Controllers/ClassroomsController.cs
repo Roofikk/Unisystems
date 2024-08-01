@@ -128,7 +128,12 @@ public class ClassroomsController : ControllerBase
             RoomTypeId = model.RoomTypeId
         };
 
-        await _columnsService.AddRangeColumnValuesAsync(classroom, model.Columns);
+        var result = await _columnsService.AddRangeColumnValuesAsync(classroom, model.Columns);
+
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
 
         var newClassroom = await _context.Classrooms.AddAsync(classroom);
         await _context.SaveChangesAsync();
