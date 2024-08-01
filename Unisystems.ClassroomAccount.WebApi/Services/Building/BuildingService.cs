@@ -57,6 +57,11 @@ public class BuildingService : IBuildingService
 
     public async Task SaveChangesAsync()
     {
+        if (!_context.ChangeTracker.HasChanges())
+        {
+            return;
+        }
+
         await _context.SaveChangesAsync();
     }
 }

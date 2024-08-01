@@ -33,9 +33,17 @@ export class ClassroomsComponent {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.classroomService.getAllClassrooms(this.queryParams).subscribe({
-      next: (classrooms) => {
-        this.classrooms = classrooms;
+    this.classroomService.getItemsAmount().subscribe({
+      next: (amount) => {
+        this.totalItems = amount;
+        this.classroomService.getAllClassrooms(this.queryParams).subscribe({
+          next: (classrooms) => {
+            this.classrooms = classrooms;
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
       },
       error: (error) => {
         console.log(error);

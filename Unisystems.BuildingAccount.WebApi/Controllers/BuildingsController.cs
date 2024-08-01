@@ -41,10 +41,9 @@ public class BuildingsController : ControllerBase
         var buildings = _context.Buildings.AsQueryable();
 
         // Сортировка
-        if (sortModel != null && _context.Buildings.EntityType.FindProperty(sortModel.SortBy) != null)
+        if (sortModel != null && _context.Buildings.EntityType.FindProperty(sortModel.SortBy ?? "BuildingId") != null)
         {
             sortModel.SortBy ??= "BuildingId";
-
             var parameter = Expression.Parameter(typeof(Building), "item");
             var member = Expression.PropertyOrField(parameter, sortModel.SortBy);
             var keySelector = Expression.Lambda(member, parameter);
@@ -108,6 +107,7 @@ public class BuildingsController : ControllerBase
         await _rabbitMqService.CreateBuilding(new BuildingCreated
         {
             BuildingId = buildingEntity.Entity.BuildingId,
+            FloorCount = buildingEntity.Entity.FloorCount,
             Name = buildingEntity.Entity.Name,
             CreatedAt = DateTime.Now,
         });
@@ -139,6 +139,7 @@ public class BuildingsController : ControllerBase
             await _rabbitMqService.UpdateBuilding(new BuildingModified
             {
                 BuildingId = buildingEntity.BuildingId,
+                FloorCount = buildingEntity.FloorCount,
                 Name = buildingEntity.Name,
                 Modified = DateTime.Now
             });

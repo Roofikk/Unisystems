@@ -36,6 +36,7 @@ public static class ClassroomContextExtensions
             await context.Database.MigrateAsync();
         }
 
+        // Инициализация типов помещений
         var existingRoomTypes = await context.RoomTypes
             .AsNoTracking()
             .ToListAsync();
@@ -57,6 +58,47 @@ public static class ClassroomContextExtensions
             {
                 KeyName = roomType.KeyName,
                 DisplayName = roomType.DisplayName
+            });
+        }
+
+        // Инициализация таблицы типов данных
+        var existingColumnTypes = await context.ColumnTypes
+            .AsNoTracking()
+            .ToListAsync();
+
+        if (!existingColumnTypes.Any(x => x.ColumnTypeId == nameof(IntColumnValue)))
+        {
+            await context.ColumnTypes.AddAsync(new ColumnType
+            {
+                ColumnTypeId = nameof(IntColumnValue),
+                DisplayName = "Целое число"
+            });
+        }
+
+        if (!existingColumnTypes.Any(x => x.ColumnTypeId == nameof(DoubleColumnValue)))
+        {
+            await context.ColumnTypes.AddAsync(new ColumnType
+            {
+                ColumnTypeId = nameof(DoubleColumnValue),
+                DisplayName = "Дробное число"
+            });
+        }
+
+        if (!existingColumnTypes.Any(x => x.ColumnTypeId == nameof(InputColumnValue)))
+        {
+            await context.ColumnTypes.AddAsync(new ColumnType
+            {
+                ColumnTypeId = nameof(InputColumnValue),
+                DisplayName = "Однострочный текст"
+            });
+        }
+
+        if (!existingColumnTypes.Any(x => x.ColumnTypeId == nameof(TextAreaColumnValue)))
+        {
+            await context.ColumnTypes.AddAsync(new ColumnType
+            {
+                ColumnTypeId = nameof(TextAreaColumnValue),
+                DisplayName = "Многострочный текст"
             });
         }
 

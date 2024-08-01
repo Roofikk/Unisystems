@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Unisystems.ClassroomAccount.DataContext;
@@ -11,9 +12,11 @@ using Unisystems.ClassroomAccount.DataContext;
 namespace Unisystems.ClassroomAccount.DataContext.Migrations
 {
     [DbContext(typeof(ClassroomContext))]
-    partial class ClassroomContextModelSnapshot : ModelSnapshot
+    [Migration("20240801080034_Change Type Of Display Name In ColumnTypes")]
+    partial class ChangeTypeOfDisplayNameInColumnTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace Unisystems.ClassroomAccount.DataContext.Migrations
 
                     b.Property<DateTimeOffset>("Added")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("FloorCount")
-                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");

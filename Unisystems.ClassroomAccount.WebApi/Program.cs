@@ -1,6 +1,7 @@
 using MassTransit;
 using Unisystems.ClassroomAccount.DataContext;
 using Unisystems.ClassroomAccount.WebApi.BuildingService;
+using Unisystems.ClassroomAccount.WebApi.ColumnsServices;
 using Unisystems.ClassroomAccount.WebApi.RoomTypeService;
 using Unisystems.RabbitMq.Consumers;
 
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddClassroomContext(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddScoped<IBuildingService, BuildingService>();
 builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
+builder.Services.AddScoped<IColumnsService, ColumnsService>();
+
 builder.Services.AddMassTransit(x =>
 {
     if (builder.Configuration["RabbitMq:Host"] == null ||

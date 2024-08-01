@@ -66,7 +66,7 @@ public class RoomTypesController : ControllerBase
 
     // POST: api/RoomTypes
     [HttpPost]
-    public async Task<ActionResult<RoomType>> PostRoomType(RoomTypeModifyDto roomType)
+    public async Task<ActionResult<RoomTypeDto>> PostRoomType(RoomTypeModifyDto roomType)
     {
         var roomTypeDto = await _roomTypeService.AddRoomTypeAsync(roomType);
 

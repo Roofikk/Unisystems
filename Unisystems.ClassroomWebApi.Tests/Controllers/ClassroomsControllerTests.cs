@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Unisystems.ClassroomAccount.DataContext;
 using Unisystems.ClassroomAccount.DataContext.Entities;
+using Unisystems.ClassroomAccount.WebApi.ColumnsServices;
 using Unisystems.ClassroomAccount.WebApi.Controllers;
 using Unisystems.ClassroomAccount.WebApi.Models.Classroom;
 
@@ -22,7 +23,8 @@ public class ClassroomsControllerTests
 
         _context = new ClassroomContext(options);
         var logger = new Mock<ILogger<ClassroomsController>>(MockBehavior.Default);
-        _controller = new ClassroomsController(_context, logger.Object);
+        var columnService = new Mock<IColumnsService>(MockBehavior.Default);
+        _controller = new ClassroomsController(_context, logger.Object, columnService.Object);
     }
 
     [Fact]

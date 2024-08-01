@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Unisystems.ClassroomAccount.DataContext;
 using Unisystems.ClassroomAccount.DataContext.Entities;
+using Unisystems.ClassroomAccount.WebApi.ColumnsServices;
 using Unisystems.ClassroomAccount.WebApi.Models;
 using Unisystems.ClassroomAccount.WebApi.Models.Classroom;
 
@@ -14,12 +15,17 @@ public class ClassroomsController : ControllerBase
 {
     private readonly ClassroomContext _context;
     private readonly ILogger<ClassroomsController> _logger;
+    private readonly IColumnsService _columnsService;
 
-    public ClassroomsController(ClassroomContext context, ILogger<ClassroomsController> logger)
+    public ClassroomsController(ClassroomContext context, ILogger<ClassroomsController> logger, IColumnsService columnsService)
     {
         _context = context;
         _logger = logger;
+        _columnsService = columnsService;
     }
+
+    [HttpGet("total-items")]
+    public async Task<ActionResult<int>> CountClassrooms() => await _context.Classrooms.CountAsync();
 
     // GET: api/Classrooms
     [HttpGet]
@@ -92,14 +98,24 @@ public class ClassroomsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ClassroomRetrieveDto>> PostClassroom(ClassroomModifyDto model)
     {
-        if (await _context.RoomTypes.AnyAsync(x => x.KeyName == model.RoomTypeId) == false)
+        if (!await _context.RoomTypes.AnyAsync(x => x.KeyName == model.RoomTypeId))
         {
             return BadRequest("Room type not found");
         }
 
-        if (await _context.Buildings.AnyAsync(x => x.BuildingId == model.BuildingId) == false)
+        var building = await _context.Buildings
+            .AsNoTracking()
+            .Select(x => new { x.BuildingId, x.FloorCount })
+            .FirstOrDefaultAsync(x => x.BuildingId == model.BuildingId);
+
+        if (building == null)
         {
             return BadRequest("Building not found");
+        }
+
+        if (building.FloorCount < model.Floor)
+        {
+            return BadRequest("Floor is out of range");
         }
 
         var classroom = new Classroom
@@ -111,6 +127,8 @@ public class ClassroomsController : ControllerBase
             BuildingId = model.BuildingId,
             RoomTypeId = model.RoomTypeId
         };
+
+        await _columnsService.AddRangeColumnValuesAsync(classroom, model.Columns);
 
         var newClassroom = await _context.Classrooms.AddAsync(classroom);
         await _context.SaveChangesAsync();
@@ -142,6 +160,13 @@ public class ClassroomsController : ControllerBase
         classroomToUpdate.BuildingId = model.BuildingId;
         classroomToUpdate.RoomTypeId = model.RoomTypeId;
 
+        var result = await _columnsService.AddRangeColumnValuesAsync(classroomToUpdate, model.Columns);
+
+        if (!result.Success)
+        {
+            return BadRequest(result.Message);
+        }
+
         try
         {
             await _context.SaveChangesAsync();
@@ -154,8 +179,9 @@ public class ClassroomsController : ControllerBase
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            _logger.LogError(ex, $"Failed to update classroom. Id: {classroomToUpdate.ClassroomId}");
-            return Conflict();
+            string message = $"Failed to update classroom. Id: {classroomToUpdate.ClassroomId}";
+            _logger.LogError(ex, message);
+            return Conflict(message);
         }
     }
 

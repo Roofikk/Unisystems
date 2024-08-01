@@ -10,8 +10,9 @@ public static class BuildingMessageMapper
         return new Building
         {
             BuildingId = buildingMessage.BuildingId,
-            Added = buildingMessage.CreatedAt.ToUniversalTime(),
             Name = buildingMessage.Name,
+            FloorCount = buildingMessage.FloorCount,
+            Added = buildingMessage.CreatedAt.ToUniversalTime(),
             LastModified = buildingMessage.CreatedAt.ToUniversalTime(),
         };
     }
@@ -22,6 +23,7 @@ public static class BuildingMessageMapper
         {
             BuildingId = buildingMessage.BuildingId,
             Name = buildingMessage.Name,
+            FloorCount = buildingMessage.FloorCount,
             LastModified = buildingMessage.Modified.ToUniversalTime(),
         };
     }

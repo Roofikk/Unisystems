@@ -8,6 +8,12 @@ public class ClassroomContext : DbContext
     public DbSet<Building> Buildings { get; set; }
     public DbSet<RoomType> RoomTypes { get; set; }
     public DbSet<Classroom> Classrooms { get; set; }
+    public DbSet<ColumnType> ColumnTypes { get; set; }
+    public DbSet<Column> Columns { get; set; }
+    public DbSet<IntColumnValue> IntColumnValues { get; set; }
+    public DbSet<InputColumnValue> InputColumnValues { get; set; }
+    public DbSet<DoubleColumnValue> DoubleColumnValues { get; set; }
+    public DbSet<TextAreaColumnValue> TextAreaColumnValues { get; set; }
 
     public ClassroomContext()
         : base()
@@ -23,7 +29,7 @@ public class ClassroomContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseNpgsql(
-                "Host=localhost;Port=5432;Database=unisystems_classrooms;Username=postgres;Password=root1234",
+                "Host=localhost;Port=5432;Database=unisystems_classrooms;Username=postgres;Password=RufikRoot123321",
                 npgOptions =>
                 {
                     npgOptions.CommandTimeout((int)TimeSpan.FromMinutes(5).TotalSeconds);
@@ -70,6 +76,36 @@ public class ClassroomContext : DbContext
             e.Property(b => b.BuildingId).ValueGeneratedNever();
 
             e.HasIndex(b => b.Name).HasDatabaseName("IX_Building_Name");
+        });
+
+        modelBuilder.Entity<ColumnType>(e =>
+        {
+            e.HasKey(t => t.ColumnTypeId);
+            e.Property(t => t.ColumnTypeId).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<Column>(e =>
+        {
+            e.HasKey(c => c.ColumnId);
+            e.Property(c => c.ColumnId).ValueGeneratedOnAdd();
+
+            e.HasOne(c => c.ColumnType)
+                .WithMany(t => t.Columns)
+                .HasForeignKey(c => c.ColumnTypeId);
+        });
+
+        modelBuilder.Entity<ColumnValue>(e =>
+        {
+            e.UseTpcMappingStrategy();
+            e.HasKey(c => new { c.ClassroomId, c.ColumnId });
+
+            e.HasOne(c => c.Classroom)
+                .WithMany(c => c.ColumnValues)
+                .HasForeignKey(c => c.ClassroomId);
+
+            e.HasOne(c => c.Column)
+                .WithMany(c => c.ColumnValues)
+                .HasForeignKey(c => c.ColumnId);
         });
     }
 }

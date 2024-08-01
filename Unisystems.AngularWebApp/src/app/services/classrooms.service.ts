@@ -13,6 +13,10 @@ export class ClassroomsService {
   baseApiUrl = 'http://localhost:7289/api/'
   constructor(private http: HttpClient) { }
 
+  getItemsAmount(): Observable<number> {
+    return this.http.get<number>(this.baseApiUrl + 'Classrooms/total-items');
+  }
+
   getAllClassrooms(queryParams: GetQueryParamsModel): Observable<Classroom[]> {
     return this.http.get<Classroom[]>(this.baseApiUrl + 'Classrooms?currentPage=' + queryParams.pagination.currentPage +
       '&pageSize=' + queryParams.pagination.pageSize + '&sortBy=' + queryParams.sortBy + '&direction=' + queryParams.direction);

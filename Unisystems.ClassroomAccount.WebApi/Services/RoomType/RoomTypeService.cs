@@ -76,6 +76,11 @@ public class RoomTypeService : IRoomTypeService
 
     public async Task SaveChangesAsync()
     {
+        if (!_context.ChangeTracker.HasChanges())
+        {
+            return;
+        }
+
         await _context.SaveChangesAsync();
     }
 
