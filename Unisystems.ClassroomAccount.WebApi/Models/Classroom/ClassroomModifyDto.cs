@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Unisystems.ClassroomAccount.WebApi.Models.Columns;
 
-namespace Unisystems.ClassroomAccount.WebApi.Models.Classroom;
+namespace Unisystems.ClassroomAccount.WebApi.Models.Classrooms;
 
 public class ClassroomModifyDto : ClassroomDto
 {

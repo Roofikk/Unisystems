@@ -17,4 +17,5 @@ public class Classroom
     public RoomType? RoomType { get; set; }
     public Building Building { get; set; } = null!;
     public ICollection<ColumnValue> ColumnValues { get; set; } = [];
+    public ICollection<TechEquipment> TechEquipments { get; set; } = [];
 }

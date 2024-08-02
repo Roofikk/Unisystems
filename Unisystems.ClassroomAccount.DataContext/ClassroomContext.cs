@@ -14,6 +14,7 @@ public class ClassroomContext : DbContext
     public DbSet<InputColumnValue> InputColumnValues { get; set; }
     public DbSet<DoubleColumnValue> DoubleColumnValues { get; set; }
     public DbSet<TextAreaColumnValue> TextAreaColumnValues { get; set; }
+    public DbSet<TechEquipment> TechEquipments { get; set; }
 
     public ClassroomContext()
         : base()
@@ -106,6 +107,18 @@ public class ClassroomContext : DbContext
             e.HasOne(c => c.Column)
                 .WithMany(c => c.ColumnValues)
                 .HasForeignKey(c => c.ColumnId);
+        });
+
+        modelBuilder.Entity<TechEquipment>(e =>
+        {
+            e.HasKey(e => e.EquipmentId);
+            e.Property(e => e.EquipmentId).ValueGeneratedOnAdd();
+
+            e.HasOne(e => e.Classroom)
+                .WithMany(c => c.TechEquipments)
+                .HasForeignKey(e => e.ClassroomId);
+
+            e.HasIndex(e => e.Name).HasDatabaseName("IX_TechEquipment_Name");
         });
     }
 }

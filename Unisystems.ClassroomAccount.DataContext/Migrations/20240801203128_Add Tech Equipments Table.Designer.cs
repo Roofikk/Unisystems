@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Unisystems.ClassroomAccount.DataContext;
@@ -11,9 +12,11 @@ using Unisystems.ClassroomAccount.DataContext;
 namespace Unisystems.ClassroomAccount.DataContext.Migrations
 {
     [DbContext(typeof(ClassroomContext))]
-    partial class ClassroomContextModelSnapshot : ModelSnapshot
+    [Migration("20240801203128_Add Tech Equipments Table")]
+    partial class AddTechEquipmentsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

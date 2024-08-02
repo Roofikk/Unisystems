@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   rabbitmq:
     image: rabbitmq:3.13.6-management
@@ -30,8 +28,8 @@ services:
       dockerfile: buildings-webapi-dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
-      - "ConnectionStrings__DefaultConnection=Host=176.97.100.35;Port=5432;Database=unisystems_buildings;Username=postgres;Password=RufikRoot123321;"
-      - "RabbitMq__Host=176.97.100.35"
+      - "ConnectionStrings__DefaultConnection=Host=${DB_HOST};Port=5432;Database=unisystems_buildings;Username=postgres;Password=RufikRoot123321;"
+      - "RabbitMq__Host=${RABBITMQ_HOST}"
       - "RabbitMq__UserName=guest"
       - "RabbitMq__Password=guest"
     depends_on:
@@ -48,8 +46,8 @@ services:
       dockerfile: classrooms-webapi-dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
-      - "ConnectionStrings__DefaultConnection=Host=176.97.100.35;Port=5432;Database=unisystems_classrooms;Username=postgres;Password=RufikRoot123321;"
-      - "RabbitMq__Host=176.97.100.35"
+      - "ConnectionStrings__DefaultConnection=Host=${DB_HOST};Port=5432;Database=unisystems_classrooms;Username=postgres;Password=RufikRoot123321;"
+      - "RabbitMq__Host=${RABBITMQ_HOST}"
       - "RabbitMq__UserName=guest"
       - "RabbitMq__Password=guest"
     depends_on:

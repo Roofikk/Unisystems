@@ -5,7 +5,7 @@ using Unisystems.ClassroomAccount.DataContext;
 using Unisystems.ClassroomAccount.DataContext.Entities;
 using Unisystems.ClassroomAccount.WebApi.ColumnsServices;
 using Unisystems.ClassroomAccount.WebApi.Models;
-using Unisystems.ClassroomAccount.WebApi.Models.Classroom;
+using Unisystems.ClassroomAccount.WebApi.Models.Classrooms;
 
 namespace Unisystems.ClassroomAccount.WebApi.Controllers;
 

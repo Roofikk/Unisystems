@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Unisystems.ClassroomAccount.WebApi.Models.Classroom;
+namespace Unisystems.ClassroomAccount.WebApi.Models.Classrooms;
 
 public abstract class ClassroomDto
 {
